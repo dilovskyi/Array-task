@@ -105,12 +105,6 @@ let parent = {
         },
     ],
 };
-// for (let key in parent) {
-//     if (Array.isArray(parent[key])) {
-//         parent = parent[key].filter(item => item);
-//     }
-// }
-// console.log(parent);
 
 for (let key in parent) {
     //Находим массив на верхнем уровне.
