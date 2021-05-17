@@ -69,23 +69,22 @@ let products2 = [
 
 //Второй вариант
 products2.forEach(prod2 => {
-    products1.forEach((prod1 ,index1) => {
-
-        if (prod1.id === prod2.id &&
+    products1.forEach((prod1, index1) => {
+        if (
+            prod1.id === prod2.id &&
             prod1.supplierCode === prod2.supplierCode &&
             prod1.ean === prod2.ean &&
             prod1.name === prod2.name &&
-            prod1.warnings === prod2.warnings) {
-                products1.splice(index1, 1)
+            prod1.warnings === prod2.warnings
+        ) {
+            products1.splice(index1, 1);
         }
-            
+
         // if (JSON.stringify(prod1) === JSON.stringify(prod2)) {
         //     products1.splice(index1, 1)
         // }
     });
 });
-
-
 
 // 2. Сохранив структуру и значения parent и children, увеличить значения массивов subChild на 1
 // (Статично забивать значения нельзя)
@@ -106,11 +105,28 @@ let parent = {
         },
     ],
 };
+// for (let key in parent) {
+//     if (Array.isArray(parent[key])) {
+//         parent = parent[key].filter(item => item);
+//     }
+// }
+// console.log(parent);
 
-function addNum(ArrayOfNums, numToAdd) {
-    ArrayOfNums.forEach((_, index) => {
-        ArrayOfNums[index] += numToAdd;
-    });
+for (let key in parent) {
+    //Находим массив на верхнем уровне.
+    if (Array.isArray(parent[key])) {
+        parent[key].forEach(childrenElem => {
+            //Делаем из обьекта массивы и "сглаживаем" их вложенность(Делаем одномерным). Итерируем.
+            Object.entries(childrenElem)
+                .flat()
+                .forEach(item => {
+                    //Находим массив children и его перебираем.
+                    if (Array.isArray(item)) {
+                        item.forEach((_, index) => {
+                            item[index] += 1;
+                        });
+                    }
+                });
+        });
+    }
 }
-addNum(parent.children[0].subChild, 1);
-addNum(parent.children[1].subChild, 1);
